@@ -18,6 +18,20 @@
 </head>
 <body>
 
+<!-- Hidden form for Netlify build-time detection -->
+<form name="contact" netlify netlify-honeypot="bot-field" hidden>
+  <input type="text" name="name">
+  <input type="email" name="email">
+  <input type="tel" name="phone">
+  <input type="date" name="event-date">
+  <select name="event-type"></select>
+  <select name="package"></select>
+  <input type="text" name="venue">
+  <textarea name="message"></textarea>
+  <input type="hidden" name="playlist-data">
+  <input type="text" name="bot-field">
+</form>
+
 <!-- NAV -->
 <nav id="navbar">
   <div class="container nav-inner">
@@ -389,7 +403,7 @@
           </div>
           <div class="contact-info-text">
             <div class="label">Email</div>
-            <a href="mailto:cory@hotshotent.com" id="contact-email">cory@hotshotent.com</a>
+            <a href="/cdn-cgi/l/email-protection#c9aaa6bbb089a1a6bdbaa1a6bdaca7bde7aaa6a4" id="contact-email"><span class="__cf_email__" data-cfemail="b6d5d9c4cff6ded9c2c5ded9c2d3d8c298d5d9db">[email&#160;protected]</span></a>
           </div>
         </div>
         <div class="contact-info-item">
@@ -441,7 +455,7 @@
     </nav>
     <div class="footer-contact">
       <a href="tel:+12046484747" id="footer-phone">204-648-4747</a>
-      <a href="mailto:cory@hotshotent.com" id="footer-email">cory@hotshotent.com</a>
+      <a href="/cdn-cgi/l/email-protection#385b574a417850574c4b50574c5d564c165b5755" id="footer-email"><span class="__cf_email__" data-cfemail="563539242f163e3922253e39223338227835393b">[email&#160;protected]</span></a>
     </div>
     <div class="footer-social">
       <a href="https://www.facebook.com/hotshotent" id="social-fb" target="_blank" rel="noopener" aria-label="Facebook">
@@ -449,7 +463,7 @@
           <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
         </svg>
       </a>
-      <a href="mailto:cory@hotshotent.com" aria-label="Email">
+      <a href="/cdn-cgi/l/email-protection#ccafa3beb58ca4a3b8bfa4a3b8a9a2b8e2afa3a1" aria-label="Email">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
           <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
           <polyline points="22,6 12,13 2,6"/>
@@ -461,6 +475,7 @@
   </div>
 </footer>
 
+<!--
 <!-- LIGHTBOX -->
 <div id="lightbox" class="lightbox">
   <button id="lightbox-close" class="lightbox-close" aria-label="Close">&times;</button>
