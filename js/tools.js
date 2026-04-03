@@ -194,22 +194,25 @@ document.addEventListener('DOMContentLoaded', () => {
   // ── CONTACT FORM SUBMISSION ──
   const form = document.getElementById('contact-form');
   form?.addEventListener('submit', e => {
-    // Netlify handles submission natively
-    // We intercept to show success state without page reload
     e.preventDefault();
     const formData = new FormData(form);
-    fetch('/', {
+    fetch('https://formspree.io/f/xkopqryo', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(formData).toString()
+      body: formData,
+      headers: { 'Accept': 'application/json' }
     })
-    .then(() => {
-      form.style.display = 'none';
-      document.getElementById('form-success').classList.add('show');
+    .then(response => {
+      if (response.ok) {
+        form.style.display = 'none';
+        document.getElementById('form-success').classList.add('show');
+      } else {
+        response.json().then(data => {
+          alert('There was a problem submitting the form. Please try again or email cory@hotshotent.com directly.');
+        });
+      }
     })
     .catch(() => {
-      // Fallback: just submit normally
-      form.submit();
+      alert('There was a problem submitting the form. Please try again or email cory@hotshotent.com directly.');
     });
   });
 
