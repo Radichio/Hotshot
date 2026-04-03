@@ -1,0 +1,183 @@
+backend:
+  name: github
+  repo: Radichio/Hotshot
+  branch: main
+
+media_folder: images
+public_folder: images
+
+site_url: https://hotshotent.netlify.app
+
+collections:
+
+  # ── BOOKED DATES ──
+  - name: booked_dates
+    label: Booked Dates
+    label_singular: Booked Date
+    folder: _data/booked_dates
+    create: true
+    slug: "{{date}}"
+    editor:
+      preview: false
+    fields:
+      - label: Date
+        name: date
+        widget: datetime
+        format: YYYY-MM-DD
+        date_format: YYYY-MM-DD
+        time_format: false
+        hint: "Select the date that is booked"
+      - label: Client Name
+        name: client
+        widget: string
+        hint: "e.g. Kayla & Hunter (for your reference only)"
+      - label: Status
+        name: status
+        widget: select
+        options:
+          - label: Booked
+            value: booked
+          - label: Hold
+            value: hold
+        default: booked
+
+  # ── TESTIMONIALS ──
+  - name: testimonials
+    label: Testimonials
+    label_singular: Testimonial
+    folder: _data/testimonials
+    create: true
+    slug: "{{slug}}"
+    editor:
+      preview: false
+    fields:
+      - label: Attribution
+        name: attribution
+        widget: string
+        hint: "e.g. Lorelle & Brad"
+      - label: Detail
+        name: detail
+        widget: string
+        hint: "e.g. Parents of the Groom — Dylan & Ashley's Wedding"
+      - label: Short Quote
+        name: shortQuote
+        widget: text
+        hint: "2-3 sentences shown by default"
+      - label: Full Quote
+        name: fullQuote
+        widget: text
+        hint: "The complete testimonial — shown when reader clicks 'Read more'"
+
+  # ── PACKAGES ──
+  - name: packages
+    label: Packages & Pricing
+    label_singular: Package
+    folder: _data/packages
+    create: true
+    slug: "{{slug}}"
+    editor:
+      preview: false
+    fields:
+      - label: Package Name
+        name: name
+        widget: string
+        hint: "e.g. The Celebration"
+      - label: Price
+        name: price
+        widget: string
+        hint: "e.g. From $3,500"
+      - label: Price Note
+        name: priceNote
+        widget: string
+        hint: "e.g. + mileage & GST"
+      - label: Description
+        name: description
+        widget: text
+      - label: Features
+        name: features
+        widget: list
+        hint: "One feature per line"
+      - label: Mark as Most Popular
+        name: popular
+        widget: boolean
+        default: false
+
+  # ── FAQ ──
+  - name: faq
+    label: FAQ
+    label_singular: FAQ Item
+    folder: _data/faq
+    create: true
+    slug: "{{slug}}"
+    editor:
+      preview: false
+    fields:
+      - label: Question
+        name: q
+        widget: string
+      - label: Answer
+        name: a
+        widget: text
+
+  # ── GALLERY ──
+  - name: gallery
+    label: Gallery
+    label_singular: Gallery Photo
+    folder: _data/gallery
+    create: true
+    slug: "{{slug}}"
+    editor:
+      preview: false
+    fields:
+      - label: Photo
+        name: src
+        widget: image
+        hint: "Upload your photo here"
+      - label: Description
+        name: alt
+        widget: string
+        hint: "Brief description of the photo (for accessibility)"
+      - label: Category
+        name: category
+        widget: select
+        options:
+          - wedding
+          - dj
+          - lighting
+          - setup
+        default: wedding
+
+  # ── BUSINESS INFO ──
+  - name: settings
+    label: Business Settings
+    files:
+      - label: Business Info
+        name: business
+        file: _data/settings/business.json
+        editor:
+          preview: false
+        fields:
+          - label: Business Name
+            name: name
+            widget: string
+          - label: Owner Name
+            name: owner
+            widget: string
+          - label: Phone
+            name: phone
+            widget: string
+          - label: Email
+            name: email
+            widget: string
+          - label: Region
+            name: region
+            widget: string
+          - label: Tagline
+            name: tagline
+            widget: string
+          - label: Facebook URL
+            name: facebook
+            widget: string
+          - label: Instagram URL
+            name: instagram
+            widget: string
