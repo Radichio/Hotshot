@@ -198,16 +198,25 @@
     </div>
     <div class="tools-grid">
 
-      <div class="tool-card fade-left">
-        <div class="section-label">Date Checker</div>
+      <div class="tool-card tool-card-wide fade-up">
+        <div class="section-label">Availability Calendar</div>
         <h3>Is Your Date Available?</h3>
-        <p>Select your event date to check availability instantly.</p>
-        <div class="date-input-wrap">
-          <input type="date" id="date-check-input" aria-label="Select your event date">
-          <button id="date-check-btn" class="btn btn-primary">Check</button>
+        <p>Select an open date below — booked and held dates are shown. Click any available date to jump straight to the inquiry form.</p>
+        <div class="cal-public-legend">
+          <div class="cal-public-legend-item">
+            <div class="cal-public-legend-dot" style="background:rgba(200,168,78,0.15);border:1px solid var(--color-gold);"></div>
+            <span>Available — click to inquire</span>
+          </div>
+          <div class="cal-public-legend-item">
+            <div class="cal-public-legend-dot" style="background:rgba(192,57,43,0.2);border:1px solid rgba(192,57,43,0.4);"></div>
+            <span>Booked</span>
+          </div>
+          <div class="cal-public-legend-item">
+            <div class="cal-public-legend-dot" style="background:rgba(230,126,34,0.2);border:1px solid rgba(230,126,34,0.4);"></div>
+            <span>On Hold</span>
+          </div>
         </div>
-        <div id="date-result" class="date-result"></div>
-        <div id="date-result-cta" class="date-result-cta" style="display:none;"></div>
+        <div id="public-calendar" style="margin-top:8px;"></div>
       </div>
 
       <div class="tool-card fade-right">
@@ -480,6 +489,7 @@
 </div>
 
 <script src="js/config.js"></script>
+<script src="js/calendar.js"></script>
 <script src="js/main.js"></script>
 <script src="js/tools.js"></script>
 </body>

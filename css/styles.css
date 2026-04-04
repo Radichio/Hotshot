@@ -972,3 +972,95 @@ footer {
   border-top: 1px solid var(--color-bg-subtle);
   width: 100%;
 }
+
+/* ============================================================
+   PUBLIC CALENDAR
+   ============================================================ */
+.tool-card-wide {
+  grid-column: 1 / -1;
+}
+@media (min-width: 1024px) {
+  .tools-grid { grid-template-columns: 1fr 1fr; }
+  .tool-card-wide { grid-column: 1 / -1; }
+}
+
+#public-calendar .cal-year { margin-bottom: 32px; }
+#public-calendar .cal-year-heading {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem; font-weight: 700;
+  color: var(--color-gold);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--color-gold-dim);
+}
+#public-calendar .cal-months-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+}
+#public-calendar .cal-month {
+  background: var(--color-bg);
+  border: 1px solid var(--color-bg-subtle);
+  border-radius: 6px;
+  padding: 12px;
+}
+#public-calendar .cal-month-heading {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.75rem; font-weight: 600;
+  color: var(--color-text-bright);
+  text-align: center; margin-bottom: 10px;
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+#public-calendar .cal-grid {
+  display: grid; grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+#public-calendar .cal-day-header {
+  text-align: center; font-size: 0.6rem;
+  color: var(--color-text-muted);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600; padding: 3px 0;
+}
+#public-calendar .cal-cell {
+  aspect-ratio: 1;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; border-radius: 3px;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.15s; user-select: none;
+}
+#public-calendar .cal-empty { background: transparent; }
+#public-calendar .cal-available { color: var(--color-text-muted); }
+#public-calendar .cal-available.cal-clickable {
+  cursor: pointer;
+}
+#public-calendar .cal-available.cal-clickable:hover {
+  background: rgba(200,168,78,0.15);
+  color: var(--color-gold);
+  transform: scale(1.15);
+}
+#public-calendar .cal-booked {
+  background: rgba(192,57,43,0.2);
+  color: #e74c3c;
+  border: 1px solid rgba(192,57,43,0.4);
+  cursor: not-allowed;
+}
+#public-calendar .cal-hold {
+  background: rgba(230,126,34,0.2);
+  color: #e67e22;
+  border: 1px solid rgba(230,126,34,0.4);
+  cursor: not-allowed;
+}
+#public-calendar .cal-past { opacity: 0.25; }
+
+/* Calendar legend on public side */
+.cal-public-legend {
+  display: flex; gap: 20px; flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.cal-public-legend-item {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 0.78rem; color: var(--color-text-muted);
+}
+.cal-public-legend-dot {
+  width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0;
+}

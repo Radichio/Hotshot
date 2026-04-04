@@ -6,83 +6,12 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   // ============================================================
-  // DATE AVAILABILITY CHECKER
+  // PUBLIC AVAILABILITY CALENDAR
   // ============================================================
-  const dateInput  = document.getElementById('date-check-input');
-  const dateBtn    = document.getElementById('date-check-btn');
-  const dateResult = document.getElementById('date-result');
-
-  if (dateInput && dateBtn) {
-    // Set min date to today
-    const today = new Date().toISOString().split('T')[0];
-    dateInput.min = today;
-
-    dateBtn.addEventListener('click', checkDate);
-    dateInput.addEventListener('keydown', e => { if (e.key === 'Enter') checkDate(); });
+  if (typeof CAL !== 'undefined' && document.getElementById('public-calendar')) {
+    const dates = CAL.loadDates();
+    CAL.buildCalendar('public-calendar', dates, false, null);
   }
-
-  function checkDate() {
-    const val = dateInput.value;
-    if (!val) return;
-
-    const selected   = new Date(val + 'T00:00:00');
-    const now        = new Date(); now.setHours(0,0,0,0);
-    const booked     = SITE_CONFIG.bookedDates || [];
-    const holds      = SITE_CONFIG.holdDates   || [];
-
-    dateResult.className = 'date-result show';
-    dateResult.innerHTML = '';
-
-    const resultCta = document.getElementById('date-result-cta');
-    if (resultCta) resultCta.style.display = 'none';
-
-    if (selected < now) {
-      dateResult.classList.add('past');
-      dateResult.innerHTML = `<span>⏎ Please select a future date.</span>`;
-      return;
-    }
-
-    const formatted = selected.toLocaleDateString('en-CA', {
-      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-    });
-
-    if (booked.includes(val)) {
-      dateResult.classList.add('booked');
-      dateResult.innerHTML = `
-        <span>✗ <strong>${formatted}</strong> is currently booked. Reach out — I may be able to help connect you with a trusted colleague.</span>
-      `;
-      if (resultCta) {
-        resultCta.style.display = 'block';
-        resultCta.innerHTML = `<a href="#contact" class="btn btn-ghost" style="padding:10px 20px;font-size:0.8rem;">Get in Touch Anyway</a>`;
-      }
-    } else if (holds.includes(val)) {
-      dateResult.classList.add('hold');
-      dateResult.innerHTML = `
-        <span>⏸ <strong>${formatted}</strong> has a tentative hold — inquire quickly to get on the list!</span>
-      `;
-      if (resultCta) {
-        resultCta.style.display = 'block';
-        resultCta.innerHTML = `<a href="#contact" class="btn btn-primary" style="padding:10px 20px;font-size:0.8rem;" onclick="prefillDate('${val}')">Inquire Now →</a>`;
-      }
-    } else {
-      dateResult.classList.add('available');
-      dateResult.innerHTML = `
-        <span>✓ Great news — <strong>${formatted}</strong> is currently available!</span>
-      `;
-      if (resultCta) {
-        resultCta.style.display = 'block';
-        resultCta.innerHTML = `<a href="#contact" class="btn btn-primary" style="padding:10px 20px;font-size:0.8rem;" onclick="prefillDate('${val}')">Lock In Your Date →</a>`;
-      }
-    }
-  }
-
-  // Pre-fill the contact form date field
-  window.prefillDate = function(dateVal) {
-    setTimeout(() => {
-      const dateField = document.querySelector('input[name="event-date"]');
-      if (dateField) dateField.value = dateVal;
-    }, 400);
-  };
 
   // ============================================================
   // PLAYLIST BUILDER

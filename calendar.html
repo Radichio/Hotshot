@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hot Shot Entertainment — Calendar Manager</title>
+  <link rel="icon" href="favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-bg:          #0a0a0f;
+      --color-bg-elevated: #14141f;
+      --color-bg-subtle:   #1a1a2e;
+      --color-gold:        #c8a84e;
+      --color-gold-light:  #e0c875;
+      --color-gold-dim:    #8a7235;
+      --color-text:        #e8e6e3;
+      --color-text-muted:  #9b9b9b;
+      --color-text-bright: #ffffff;
+      --color-booked:      #c0392b;
+      --color-booked-bg:   rgba(192,57,43,0.2);
+      --color-hold:        #e67e22;
+      --color-hold-bg:     rgba(230,126,34,0.2);
+      --color-available:   #27ae60;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text);
+      min-height: 100vh;
+    }
+
+    /* ── LOGIN SCREEN ── */
+    #login-screen {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh;
+      background: radial-gradient(ellipse at center, #14141f 0%, #0a0a0f 100%);
+    }
+    .login-box {
+      background: var(--color-bg-elevated);
+      border: 1px solid var(--color-bg-subtle);
+      border-radius: 12px;
+      padding: 48px 40px;
+      width: 100%; max-width: 380px;
+      text-align: center;
+    }
+    .login-logo {
+      width: 80px; height: 80px;
+      background: var(--color-bg-subtle);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 24px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem; font-weight: 700;
+      color: var(--color-gold);
+      border: 2px solid var(--color-gold-dim);
+    }
+    .login-box h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.25rem; font-weight: 700;
+      color: var(--color-text-bright);
+      margin-bottom: 6px;
+    }
+    .login-box p {
+      font-size: 0.875rem; color: var(--color-text-muted);
+      margin-bottom: 32px;
+    }
+    .login-box input {
+      width: 100%;
+      background: var(--color-bg);
+      border: 1px solid var(--color-bg-subtle);
+      border-radius: 6px;
+      padding: 14px 16px;
+      color: var(--color-text);
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      margin-bottom: 16px;
+      transition: border-color 0.3s;
+      text-align: center; letter-spacing: 0.1em;
+    }
+    .login-box input:focus { outline: none; border-color: var(--color-gold); }
+    .login-btn {
+      width: 100%;
+      background: var(--color-gold); color: #0a0a0f;
+      border: none; border-radius: 6px;
+      padding: 14px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.875rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .login-btn:hover { background: var(--color-gold-light); }
+    .login-error {
+      color: #e74c3c; font-size: 0.85rem;
+      margin-top: 12px; display: none;
+    }
+
+    /* ── MAIN APP ── */
+    #app { display: none; }
+
+    .app-header {
+      background: var(--color-bg-elevated);
+      border-bottom: 1px solid var(--color-bg-subtle);
+      padding: 16px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .app-header-left {
+      display: flex; align-items: center; gap: 16px;
+    }
+    .app-header h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem; font-weight: 700;
+      color: var(--color-text-bright);
+    }
+    .app-header p {
+      font-size: 0.8rem; color: var(--color-text-muted);
+    }
+    .header-actions { display: flex; gap: 12px; align-items: center; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.8rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 10px 20px; border-radius: 4px;
+      cursor: pointer; border: none;
+      transition: all 0.3s;
+    }
+    .btn-primary { background: var(--color-gold); color: #0a0a0f; }
+    .btn-primary:hover { background: var(--color-gold-light); }
+    .btn-ghost {
+      background: transparent; color: var(--color-text-muted);
+      border: 1px solid var(--color-bg-subtle);
+    }
+    .btn-ghost:hover { color: var(--color-text-bright); border-color: var(--color-text-muted); }
+    .btn-danger { background: transparent; color: #e74c3c; border: 1px solid #e74c3c; }
+    .btn-danger:hover { background: #e74c3c; color: white; }
+
+    /* Legend */
+    .legend {
+      display: flex; gap: 24px; align-items: center;
+      padding: 16px 32px;
+      background: var(--color-bg-elevated);
+      border-bottom: 1px solid var(--color-bg-subtle);
+      flex-wrap: wrap;
+    }
+    .legend-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.85rem; color: var(--color-text-muted);
+    }
+    .legend-dot {
+      width: 14px; height: 14px; border-radius: 3px;
+    }
+    .legend-dot.booked  { background: var(--color-booked); }
+    .legend-dot.hold    { background: var(--color-hold); }
+    .legend-dot.available { background: var(--color-bg-subtle); border: 1px solid var(--color-text-muted); }
+
+    .legend-instructions {
+      margin-left: auto;
+      font-size: 0.8rem; color: var(--color-text-muted);
+      font-style: italic;
+    }
+
+    /* Status bar */
+    #status-bar {
+      padding: 10px 32px;
+      font-size: 0.85rem;
+      display: none;
+    }
+    #status-bar.success { background: rgba(39,174,96,0.15); color: #2ecc71; display: block; }
+    #status-bar.error   { background: rgba(231,76,60,0.15);  color: #e74c3c; display: block; }
+    #status-bar.info    { background: rgba(200,168,78,0.1);  color: var(--color-gold); display: block; }
+
+    /* Stats strip */
+    .stats-strip {
+      display: flex; gap: 32px; padding: 16px 32px;
+      border-bottom: 1px solid var(--color-bg-subtle);
+      flex-wrap: wrap;
+    }
+    .stat {
+      display: flex; flex-direction: column; gap: 2px;
+    }
+    .stat-num {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem; font-weight: 700;
+      color: var(--color-gold);
+    }
+    .stat-label { font-size: 0.75rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+
+    /* Calendar */
+    .cal-container { padding: 32px; }
+
+    .cal-year { margin-bottom: 48px; }
+    .cal-year-heading {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem; font-weight: 700;
+      color: var(--color-gold);
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--color-gold-dim);
+    }
+    .cal-months-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .cal-month {
+      background: var(--color-bg-elevated);
+      border: 1px solid var(--color-bg-subtle);
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .cal-month-heading {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.875rem; font-weight: 600;
+      color: var(--color-text-bright);
+      text-align: center; margin-bottom: 12px;
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .cal-grid {
+      display: grid; grid-template-columns: repeat(7, 1fr);
+      gap: 3px;
+    }
+    .cal-day-header {
+      text-align: center; font-size: 0.65rem;
+      color: var(--color-text-muted);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600; letter-spacing: 0.05em;
+      padding: 4px 0;
+    }
+    .cal-cell {
+      aspect-ratio: 1; display: flex;
+      align-items: center; justify-content: center;
+      font-size: 0.75rem; border-radius: 4px;
+      cursor: default; font-family: 'Inter', sans-serif;
+      transition: all 0.15s;
+      user-select: none;
+    }
+    .cal-empty { background: transparent; }
+    .cal-available { background: transparent; color: var(--color-text-muted); }
+    .cal-available:not(.cal-past) { cursor: pointer; }
+    .cal-available:not(.cal-past):hover { background: var(--color-bg-subtle); color: var(--color-text-bright); }
+    .cal-booked { background: var(--color-booked-bg); color: #e74c3c; font-weight: 600; border: 1px solid var(--color-booked); }
+    .cal-booked:not(.cal-past) { cursor: pointer; }
+    .cal-hold { background: var(--color-hold-bg); color: #e67e22; font-weight: 600; border: 1px solid var(--color-hold); }
+    .cal-hold:not(.cal-past) { cursor: pointer; }
+    .cal-past { opacity: 0.3; cursor: default !important; }
+    .cal-clickable:hover { background: rgba(200,168,78,0.15) !important; color: var(--color-gold) !important; transform: scale(1.1); }
+
+    /* Unsaved changes indicator */
+    #unsaved-indicator {
+      display: none;
+      background: rgba(200,168,78,0.1);
+      border: 1px solid var(--color-gold-dim);
+      border-radius: 4px;
+      padding: 6px 14px;
+      font-size: 0.8rem; color: var(--color-gold);
+      font-family: 'Montserrat', sans-serif;
+    }
+    #unsaved-indicator.show { display: block; }
+
+    /* Save instructions */
+    .save-instructions {
+      padding: 16px 32px;
+      background: rgba(200,168,78,0.05);
+      border-bottom: 1px solid var(--color-bg-subtle);
+      font-size: 0.85rem; color: var(--color-text-muted);
+    }
+    .save-instructions strong { color: var(--color-gold); }
+
+    @media (max-width: 768px) {
+      .app-header { padding: 12px 16px; flex-wrap: wrap; gap: 12px; }
+      .cal-container { padding: 16px; }
+      .legend { padding: 12px 16px; }
+      .stats-strip { padding: 12px 16px; gap: 20px; }
+      .legend-instructions { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">HS</div>
+    <h1>Calendar Manager</h1>
+    <p>Hot Shot Entertainment — Admin Access</p>
+    <input type="password" id="password-input" placeholder="Enter password" autocomplete="current-password">
+    <button class="login-btn" onclick="attemptLogin()">Enter</button>
+    <p class="login-error" id="login-error">Incorrect password. Try again.</p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+
+  <div class="app-header">
+    <div class="app-header-left">
+      <div>
+        <h1>Hot Shot Entertainment — Availability Calendar</h1>
+        <p>Click dates to toggle status. Save when done.</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <div id="unsaved-indicator">● Unsaved changes</div>
+      <button class="btn btn-ghost" onclick="clearAllDates()">Clear All</button>
+      <button class="btn btn-primary" onclick="saveDates()">Save &amp; Publish</button>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-dot available"></div>
+      <span>Available — click once</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot booked"></div>
+      <span>Booked — click twice</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot hold"></div>
+      <span>Hold — click three times to clear</span>
+    </div>
+    <p class="legend-instructions">Click any future date to cycle: Available → Booked → Hold → Available</p>
+  </div>
+
+  <div class="stats-strip">
+    <div class="stat">
+      <span class="stat-num" id="stat-booked">0</span>
+      <span class="stat-label">Booked Dates</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num" id="stat-hold">0</span>
+      <span class="stat-label">On Hold</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num" id="stat-available">—</span>
+      <span class="stat-label">Next Available</span>
+    </div>
+  </div>
+
+  <div id="status-bar"></div>
+
+  <div class="save-instructions">
+    <strong>How to publish:</strong> Click "Save &amp; Publish" — your availability updates on the website within 60 seconds. No other steps needed.
+  </div>
+
+  <div class="cal-container">
+    <div id="admin-calendar"></div>
+  </div>
+
+</div>
+
+<script>
+  // ── PASSWORD ──
+  const PASSWORD = 'supercal';
+  let dates = {};
+  let hasUnsavedChanges = false;
+
+  function attemptLogin() {
+    const val = document.getElementById('password-input').value;
+    if (val === PASSWORD) {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      initApp();
+    } else {
+      document.getElementById('login-error').style.display = 'block';
+      document.getElementById('password-input').value = '';
+      document.getElementById('password-input').focus();
+    }
+  }
+
+  document.getElementById('password-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') attemptLogin();
+  });
+
+  // ── INIT ──
+  function initApp() {
+    // Load from SITE_CONFIG if available
+    dates = {};
+    if (typeof SITE_CONFIG !== 'undefined') {
+      (SITE_CONFIG.bookedDates || []).forEach(d => dates[d] = 'booked');
+      (SITE_CONFIG.holdDates   || []).forEach(d => dates[d] = 'hold');
+    }
+    renderCalendar();
+    updateStats();
+  }
+
+  // ── RENDER ──
+  function renderCalendar() {
+    const container = document.getElementById('admin-calendar');
+    container.innerHTML = '';
+
+    const today = new Date(); today.setHours(0,0,0,0);
+    const startYear = today.getFullYear();
+    const endYear   = startYear + 2;
+
+    for (let year = startYear; year <= endYear; year++) {
+      const yearDiv = document.createElement('div');
+      yearDiv.className = 'cal-year';
+
+      const yearHeading = document.createElement('div');
+      yearHeading.className = 'cal-year-heading';
+      yearHeading.textContent = year;
+      yearDiv.appendChild(yearHeading);
+
+      const monthsGrid = document.createElement('div');
+      monthsGrid.className = 'cal-months-grid';
+
+      const startMonth = (year === startYear) ? today.getMonth() : 0;
+      for (let month = startMonth; month < 12; month++) {
+        monthsGrid.appendChild(buildMonth(year, month, today));
+      }
+
+      yearDiv.appendChild(monthsGrid);
+      container.appendChild(yearDiv);
+    }
+  }
+
+  const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const DAYS   = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+
+  function fmt(y, m, d) {
+    return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+  }
+
+  function buildMonth(year, month, today) {
+    const wrap = document.createElement('div');
+    wrap.className = 'cal-month';
+
+    const heading = document.createElement('div');
+    heading.className = 'cal-month-heading';
+    heading.textContent = `${MONTHS[month]} ${year}`;
+    wrap.appendChild(heading);
+
+    const grid = document.createElement('div');
+    grid.className = 'cal-grid';
+
+    DAYS.forEach(d => {
+      const cell = document.createElement('div');
+      cell.className = 'cal-day-header';
+      cell.textContent = d;
+      grid.appendChild(cell);
+    });
+
+    const firstDay = new Date(year, month, 1).getDay();
+    for (let i = 0; i < firstDay; i++) {
+      const empty = document.createElement('div');
+      empty.className = 'cal-cell cal-empty';
+      grid.appendChild(empty);
+    }
+
+    const daysInMonth = new Date(year, month+1, 0).getDate();
+    for (let d = 1; d <= daysInMonth; d++) {
+      const dateStr  = fmt(year, month, d);
+      const status   = dates[dateStr] || 'available';
+      const cellDate = new Date(year, month, d);
+      const isPast   = cellDate < today;
+
+      const cell = document.createElement('div');
+      cell.className = `cal-cell cal-${status}${isPast ? ' cal-past' : ''}`;
+      cell.textContent = d;
+      cell.dataset.date = dateStr;
+      cell.title = dateStr;
+
+      if (!isPast) {
+        cell.addEventListener('click', () => toggleDate(dateStr, cell));
+      }
+
+      grid.appendChild(cell);
+    }
+
+    wrap.appendChild(grid);
+    return wrap;
+  }
+
+  // ── TOGGLE DATE ──
+  function toggleDate(dateStr, cell) {
+    const current = dates[dateStr] || 'available';
+    const next = current === 'available' ? 'booked'
+               : current === 'booked'    ? 'hold'
+               : 'available';
+
+    if (next === 'available') {
+      delete dates[dateStr];
+    } else {
+      dates[dateStr] = next;
+    }
+
+    cell.className = `cal-cell cal-${next}`;
+    markUnsaved();
+    updateStats();
+  }
+
+  // ── STATS ──
+  function updateStats() {
+    const bookedCount = Object.values(dates).filter(v => v === 'booked').length;
+    const holdCount   = Object.values(dates).filter(v => v === 'hold').length;
+    document.getElementById('stat-booked').textContent = bookedCount;
+    document.getElementById('stat-hold').textContent   = holdCount;
+
+    // Next available date
+    const today = new Date(); today.setHours(0,0,0,0);
+    let next = null;
+    for (let i = 0; i < 400; i++) {
+      const d = new Date(today); d.setDate(today.getDate() + i);
+      const str = fmt(d.getFullYear(), d.getMonth(), d.getDate());
+      if (!dates[str]) { next = str; break; }
+    }
+    document.getElementById('stat-available').textContent = next
+      ? new Date(next + 'T00:00:00').toLocaleDateString('en-CA', { month: 'short', day: 'numeric', year: 'numeric' })
+      : '—';
+  }
+
+  // ── UNSAVED ──
+  function markUnsaved() {
+    hasUnsavedChanges = true;
+    document.getElementById('unsaved-indicator').classList.add('show');
+  }
+
+  // ── CLEAR ALL ──
+  function clearAllDates() {
+    if (!confirm('Clear all booked and hold dates? This cannot be undone.')) return;
+    dates = {};
+    renderCalendar();
+    updateStats();
+    markUnsaved();
+  }
+
+  // ── SAVE ──
+  function saveDates() {
+    const bookedDates = Object.entries(dates).filter(([,v]) => v === 'booked').map(([k]) => k).sort();
+    const holdDates   = Object.entries(dates).filter(([,v]) => v === 'hold').map(([k]) => k).sort();
+
+    // Generate the new config.js content
+    const configContent = generateConfig(bookedDates, holdDates);
+
+    // Download as config.js for the user to replace
+    const blob = new Blob([configContent], { type: 'application/javascript' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url;
+    a.download = 'config.js';
+    a.click();
+    URL.revokeObjectURL(url);
+
+    showStatus('success', `✓ config.js downloaded — ${bookedDates.length} booked, ${holdDates.length} on hold. Replace js/config.js in your site folder and push to GitHub to publish.`);
+    document.getElementById('unsaved-indicator').classList.remove('show');
+    hasUnsavedChanges = false;
+  }
+
+  function generateConfig(bookedDates, holdDates) {
+    const bookedStr = bookedDates.map(d => `    "${d}"`).join(',\n') || '';
+    const holdStr   = holdDates.map(d => `    "${d}"`).join(',\n') || '';
+
+    // Read current config and replace just the date arrays
+    return `const SITE_CONFIG = {
+
+  // ── BUSINESS INFO ──
+  business: {
+    name: "Hot Shot Entertainment",
+    owner: "Cory Gulenchin",
+    title: "WPICC DJ/MC — Certified Wedding Coordinator",
+    phone: "204-648-4747",
+    phoneLink: "tel:+12046484747",
+    email: "cory@hotshotent.com",
+    region: "Parkland & Interlake, Manitoba",
+    tagline: "Making Every Event Hit the Mark",
+    copyright: \`© \${new Date().getFullYear()} Hot Shot Entertainment\`,
+    social: {
+      facebook: "https://www.facebook.com/hotshotent",
+      instagram: "",
+    }
+  },
+
+  // ── BOOKED DATES ── (managed via Calendar Manager)
+  bookedDates: [
+${bookedStr}
+  ],
+
+  holdDates: [
+${holdStr}
+  ],
+
+  // ── TESTIMONIALS ──
+  testimonials: [
+    {
+      shortQuote: "Your presence truly brought the entire celebration to life. It's rare to find someone who can bring so much heart and professionalism to a role like yours — and you did it effortlessly.",
+      fullQuote: "Cory, we just wanted to take a moment to send you our deepest thanks for the incredible job you did as the host, DJ, and Master of Ceremonies at Dylan & Ashley's wedding. Your presence truly brought the entire celebration to life. From helping plan the flow of the evening the day before, to seamlessly guiding the entire celebration, your professionalism, care and charisma shone through every step of the way. You took the time to understand the kids' vision and then brought it to life even better than we all could have imagined. From the moment the evening began, you set the perfect tone — warm, engaging, and full of energy. You had an amazing way of reading the room, knowing just when to turn up the excitement and when to pull back for those quiet, meaningful moments. Your timing was impeccable, your voice carried such ease and confidence, and your genuine enthusiasm made everyone feel like part of something truly special. Your smooth transitions between events kept everything flowing seamlessly. It's rare to find someone who can bring so much heart and professionalism to a role like yours — and you did it effortlessly. You didn't just help make the night unforgettable; you were a part of what made it unforgettable. Thank you for being such a key piece of a beautiful, joyful, once-in-a-lifetime day.",
+      attribution: "Lorelle & Brad",
+      detail: "Parents of the Groom — Dylan & Ashley's Wedding"
+    },
+  ],
+
+  // ── PACKAGES ──
+  packages: [
+    {
+      name: "The Social",
+      price: "From $800",
+      priceNote: "+ mileage & GST",
+      description: "Perfect for dances, socials, fundraisers, and community events.",
+      features: [
+        "Professional sound system",
+        "MC & host services",
+        "Up to 5 hours",
+        "Custom playlist planning"
+      ],
+      popular: false
+    },
+    {
+      name: "The Celebration",
+      price: "From $3,500",
+      priceNote: "+ mileage & GST",
+      description: "Full wedding reception coverage — your complete evening handled.",
+      features: [
+        "Planning consultation",
+        "Ceremony audio",
+        "Cocktail + dinner music",
+        "Full dance set + MC",
+        "Up to 10 hours"
+      ],
+      popular: true
+    },
+    {
+      name: "The Full Experience",
+      price: "Custom Quote",
+      priceNote: "contact for details",
+      description: "Everything in The Celebration, plus full-day coordination and premium add-ons.",
+      features: [
+        "Full-day coordination",
+        "Uplighting package",
+        "Large screen video",
+        "Dedicated planning session",
+        "Unlimited hours"
+      ],
+      popular: false
+    }
+  ],
+
+  // ── SERVICES ──
+  services: [
+    {
+      icon: "mic",
+      title: "MC & Host",
+      description: "More than announcements — I guide your evening with warmth, energy, and seamless coordination. From grand entrances to last call, every moment flows."
+    },
+    {
+      icon: "music",
+      title: "DJ Services",
+      description: "50,000+ song library spanning every era and genre. Pro-grade sound that fills the room without drowning conversation. I read the crowd and keep the dance floor packed."
+    },
+    {
+      icon: "ring",
+      title: "Wedding Coordination",
+      description: "WPICC certified. I work with you and your vendors to build a timeline, manage the flow, and handle the details so you can be present for every moment of your day."
+    }
+  ],
+
+  // ── ENHANCEMENTS ──
+  enhancements: [
+    {
+      title: "Uplighting",
+      description: "Transform any venue with colour-washed walls that set the perfect mood.",
+      image: "images/svc-uplighting.png"
+    },
+    {
+      title: "Large Video Screening",
+      description: "Bring the party to life with large-format video displays for slideshows and more.",
+      image: "images/svc-video-screening.png"
+    },
+    {
+      title: "Remote Onsite Setup",
+      description: "Full professional DJ setup delivered and running at virtually any venue of your choice.",
+      image: "images/svc-remote-setup.png"
+    },
+    {
+      title: "Elegant Mood Lighting",
+      description: "Warm, ambient lighting packages that elevate any space into something special.",
+      image: "images/svc-mood-lighting.png"
+    }
+  ],
+
+  // ── GALLERY ──
+  gallery: [
+    { src: "images/wedding-party.jpg", alt: "Wedding reception — bride and wedding party laughing at head table", category: "wedding" },
+    { src: "images/hero-dj-tall.jpg", alt: "Cory Gulenchin DJing at a wedding reception", category: "dj" },
+    { src: "images/wedding-party-cropped.jpg", alt: "Bride enjoying the reception", category: "wedding" },
+    { src: "images/svc-uplighting.png", alt: "Purple uplighting at venue", category: "lighting" },
+    { src: "images/svc-video-screening.png", alt: "Large screen video setup for events", category: "setup" },
+    { src: "images/svc-mood-lighting.png", alt: "Elegant mood lighting for events", category: "lighting" },
+  ],
+
+  // ── FAQ ──
+  faq: [
+    {
+      q: "How far do you travel?",
+      a: "I'm based in the Parkland region and regularly serve the entire Interlake area of Manitoba. Mileage is added for events outside my base area. Just ask — I love a road trip for a great party."
+    },
+    {
+      q: "What equipment do you bring?",
+      a: "I arrive fully self-contained with professional sound system, wireless microphones, DJ controller, laptop with 50,000+ song library, and backup equipment for everything critical. Uplighting, large screen video, and mood lighting available as add-ons."
+    },
+    {
+      q: "What if we need to postpone?",
+      a: "Life happens. I work with my couples to find a new date that works for everyone. Your deposit transfers to the new date."
+    },
+    {
+      q: "Do you take requests during the event?",
+      a: "Absolutely — within reason. I read the room and blend requests with the flow of the night. You can also provide a Do Not Play list in advance."
+    },
+    {
+      q: "What makes you different from a playlist?",
+      a: "A playlist can't read the room, adjust the energy, introduce your wedding party, coordinate your timeline, or save the moment when the best man's mic cuts out. I'm not just pressing play — I'm your MC, your coordinator, and your insurance policy for a seamless night."
+    },
+    {
+      q: "Are you insured?",
+      a: "Yes, fully insured for all events."
+    }
+  ]
+
+};`;
+  }
+
+  function showStatus(type, msg) {
+    const bar = document.getElementById('status-bar');
+    bar.className = type;
+    bar.textContent = msg;
+    if (type === 'success') {
+      setTimeout(() => { bar.className = ''; bar.textContent = ''; }, 8000);
+    }
+  }
+
+  // Warn on unsaved changes
+  window.addEventListener('beforeunload', e => {
+    if (hasUnsavedChanges) {
+      e.preventDefault();
+      e.returnValue = '';
+    }
+  });
+</script>
+
+<script src="js/config.js"></script>
+</body>
+</html>
