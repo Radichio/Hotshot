@@ -96,7 +96,7 @@ const CAL = (() => {
     return wrap;
   }
 
-  // Build full multi-year calendar
+  // Build full multi-year calendar with year tabs
   function buildCalendar(containerId, dates, interactive, onDateClick) {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -106,14 +106,30 @@ const CAL = (() => {
     const startYear = today.getFullYear();
     const endYear   = startYear + 2;
 
-    for (let year = startYear; year <= endYear; year++) {
-      const yearDiv = document.createElement('div');
-      yearDiv.className = 'cal-year';
+    // Build tab bar
+    const tabBar = document.createElement('div');
+    tabBar.className = 'cal-year-tabs';
 
-      const yearHeading = document.createElement('div');
-      yearHeading.className = 'cal-year-heading';
-      yearHeading.textContent = year;
-      yearDiv.appendChild(yearHeading);
+    for (let year = startYear; year <= endYear; year++) {
+      const tab = document.createElement('button');
+      tab.className = 'cal-year-tab' + (year === startYear ? ' active' : '');
+      tab.textContent = year;
+      tab.dataset.year = year;
+      tab.addEventListener('click', () => {
+        container.querySelectorAll('.cal-year-tab').forEach(t => t.classList.remove('active'));
+        container.querySelectorAll('.cal-year-panel').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        container.querySelector(`.cal-year-panel[data-year="${year}"]`).classList.add('active');
+      });
+      tabBar.appendChild(tab);
+    }
+    container.appendChild(tabBar);
+
+    // Build year panels
+    for (let year = startYear; year <= endYear; year++) {
+      const panel = document.createElement('div');
+      panel.className = 'cal-year-panel' + (year === startYear ? ' active' : '');
+      panel.dataset.year = year;
 
       const monthsGrid = document.createElement('div');
       monthsGrid.className = 'cal-months-grid';
@@ -123,8 +139,8 @@ const CAL = (() => {
         monthsGrid.appendChild(buildMonth(year, month, dates, interactive, onDateClick));
       }
 
-      yearDiv.appendChild(monthsGrid);
-      container.appendChild(yearDiv);
+      panel.appendChild(monthsGrid);
+      container.appendChild(panel);
     }
   }
 

@@ -1064,3 +1064,29 @@ footer {
 .cal-public-legend-dot {
   width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0;
 }
+
+/* ── CALENDAR YEAR TABS ── */
+.cal-year-tabs {
+  display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap;
+}
+.cal-year-tab {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.85rem; font-weight: 600;
+  letter-spacing: 0.1em;
+  padding: 10px 24px; border-radius: 4px;
+  cursor: pointer; border: 1px solid var(--color-bg-subtle);
+  background: var(--color-bg-elevated);
+  color: var(--color-text-muted);
+  transition: all 0.2s;
+}
+.cal-year-tab:hover {
+  border-color: var(--color-gold-dim);
+  color: var(--color-text-bright);
+}
+.cal-year-tab.active {
+  background: var(--color-gold);
+  border-color: var(--color-gold);
+  color: #0a0a0f;
+}
+.cal-year-panel { display: none; }
+.cal-year-panel.active { display: block; }
