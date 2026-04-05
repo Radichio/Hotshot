@@ -392,50 +392,10 @@
     updateStats();
   }
 
-  // ── RENDER ──
+  // ── RENDER — uses CAL carousel from calendar.js ──
   function renderCalendar() {
-    const container = document.getElementById('admin-calendar');
-    container.innerHTML = '';
-
-    const today = new Date(); today.setHours(0,0,0,0);
-    const startYear = today.getFullYear();
-    const endYear   = startYear + 2;
-
-    // Tab bar
-    const tabBar = document.createElement('div');
-    tabBar.className = 'cal-year-tabs';
-
-    for (let year = startYear; year <= endYear; year++) {
-      const tab = document.createElement('button');
-      tab.className = 'cal-year-tab' + (year === startYear ? ' active' : '');
-      tab.textContent = year;
-      tab.dataset.year = year;
-      tab.addEventListener('click', () => {
-        container.querySelectorAll('.cal-year-tab').forEach(t => t.classList.remove('active'));
-        container.querySelectorAll('.cal-year-panel').forEach(p => p.classList.remove('active'));
-        tab.classList.add('active');
-        container.querySelector(`.cal-year-panel[data-year="${year}"]`).classList.add('active');
-      });
-      tabBar.appendChild(tab);
-    }
-    container.appendChild(tabBar);
-
-    // Year panels
-    for (let year = startYear; year <= endYear; year++) {
-      const panel = document.createElement('div');
-      panel.className = 'cal-year-panel' + (year === startYear ? ' active' : '');
-      panel.dataset.year = year;
-
-      const monthsGrid = document.createElement('div');
-      monthsGrid.className = 'cal-months-grid';
-
-      const startMonth = (year === startYear) ? today.getMonth() : 0;
-      for (let month = startMonth; month < 12; month++) {
-        monthsGrid.appendChild(buildMonth(year, month, today));
-      }
-
-      panel.appendChild(monthsGrid);
-      container.appendChild(panel);
+    if (typeof CAL !== 'undefined') {
+      CAL.buildCalendar('admin-calendar', dates, true, toggleDate);
     }
   }
 
@@ -762,5 +722,6 @@ ${holdStr}
 </script>
 
 <script src="js/config.js"></script>
+<script src="js/calendar.js"></script>
 </body>
 </html>

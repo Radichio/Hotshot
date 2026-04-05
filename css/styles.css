@@ -973,101 +973,52 @@ footer {
   width: 100%;
 }
 
+
 /* ============================================================
-   PUBLIC CALENDAR
+   CALENDAR CAROUSEL (public + admin)
    ============================================================ */
-.tool-card-wide {
-  grid-column: 1 / -1;
-}
-@media (min-width: 1024px) {
-  .tools-grid { grid-template-columns: 1fr 1fr; }
-  .tool-card-wide { grid-column: 1 / -1; }
-}
 
-#public-calendar .cal-year { margin-bottom: 32px; }
-#public-calendar .cal-year-heading {
+/* Carousel wrapper */
+.cal-carousel { width: 100%; }
+
+/* Nav row */
+.cal-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px; gap: 12px;
+}
+.cal-nav-label {
   font-family: 'Montserrat', sans-serif;
-  font-size: 1.1rem; font-weight: 700;
-  color: var(--color-gold);
-  margin-bottom: 16px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--color-gold-dim);
-}
-#public-calendar .cal-months-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 16px;
-}
-#public-calendar .cal-month {
-  background: var(--color-bg);
-  border: 1px solid var(--color-bg-subtle);
-  border-radius: 6px;
-  padding: 12px;
-}
-#public-calendar .cal-month-heading {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.75rem; font-weight: 600;
+  font-size: 0.9rem; font-weight: 600;
   color: var(--color-text-bright);
-  text-align: center; margin-bottom: 10px;
-  text-transform: uppercase; letter-spacing: 0.08em;
+  text-align: center; flex: 1;
+  letter-spacing: 0.05em;
 }
-#public-calendar .cal-grid {
-  display: grid; grid-template-columns: repeat(7, 1fr);
-  gap: 2px;
-}
-#public-calendar .cal-day-header {
-  text-align: center; font-size: 0.6rem;
-  color: var(--color-text-muted);
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600; padding: 3px 0;
-}
-#public-calendar .cal-cell {
-  aspect-ratio: 1;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.7rem; border-radius: 3px;
-  font-family: 'Inter', sans-serif;
-  transition: all 0.15s; user-select: none;
-}
-#public-calendar .cal-empty { background: transparent; }
-#public-calendar .cal-available { color: var(--color-text-muted); }
-#public-calendar .cal-available.cal-clickable {
-  cursor: pointer;
-}
-#public-calendar .cal-available.cal-clickable:hover {
-  background: rgba(200,168,78,0.15);
+.cal-nav-btn {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-bg-subtle);
+  border-radius: 4px;
   color: var(--color-gold);
-  transform: scale(1.15);
+  font-size: 1.2rem; line-height: 1;
+  width: 40px; height: 40px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; flex-shrink: 0;
 }
-#public-calendar .cal-booked {
-  background: rgba(192,57,43,0.2);
-  color: #e74c3c;
-  border: 1px solid rgba(192,57,43,0.4);
-  cursor: not-allowed;
+.cal-nav-btn:hover:not(:disabled) {
+  background: var(--color-gold);
+  color: #0a0a0f;
+  border-color: var(--color-gold);
 }
-#public-calendar .cal-hold {
-  background: rgba(230,126,34,0.2);
-  color: #e67e22;
-  border: 1px solid rgba(230,126,34,0.4);
-  cursor: not-allowed;
-}
-#public-calendar .cal-past { opacity: 0.25; }
+.cal-nav-btn:disabled { cursor: default; }
 
-/* Calendar legend on public side */
-.cal-public-legend {
-  display: flex; gap: 20px; flex-wrap: wrap;
-  margin-bottom: 16px;
-}
-.cal-public-legend-item {
-  display: flex; align-items: center; gap: 6px;
-  font-size: 0.78rem; color: var(--color-text-muted);
-}
-.cal-public-legend-dot {
-  width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0;
+/* Track — months side by side */
+.cal-track {
+  display: flex; gap: 12px; align-items: flex-start;
 }
 
-/* ── CALENDAR YEAR TABS ── */
+/* Year tabs (admin only) */
 .cal-year-tabs {
-  display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap;
+  display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;
 }
 .cal-year-tab {
   font-family: 'Montserrat', sans-serif;
@@ -1090,3 +1041,75 @@ footer {
 }
 .cal-year-panel { display: none; }
 .cal-year-panel.active { display: block; }
+
+/* Individual month card */
+.cal-month {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-bg-subtle);
+  border-radius: 6px;
+  padding: 12px;
+  min-width: 0;
+}
+.cal-month-heading {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.75rem; font-weight: 600;
+  color: var(--color-text-bright);
+  text-align: center; margin-bottom: 10px;
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+.cal-grid {
+  display: grid; grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+.cal-day-header {
+  text-align: center; font-size: 0.6rem;
+  color: var(--color-text-muted);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600; padding: 3px 0;
+}
+.cal-cell {
+  aspect-ratio: 1;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.72rem; border-radius: 3px;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.15s; user-select: none;
+}
+.cal-empty { background: transparent; }
+.cal-available { color: var(--color-text-muted); }
+.cal-available.cal-clickable { cursor: pointer; }
+.cal-available.cal-clickable:hover {
+  background: rgba(200,168,78,0.15);
+  color: var(--color-gold);
+  transform: scale(1.15);
+}
+.cal-booked {
+  background: rgba(192,57,43,0.2);
+  color: #e74c3c;
+  border: 1px solid rgba(192,57,43,0.4);
+  cursor: not-allowed;
+}
+.cal-hold {
+  background: rgba(230,126,34,0.2);
+  color: #e67e22;
+  border: 1px solid rgba(230,126,34,0.4);
+  cursor: not-allowed;
+}
+.cal-past { opacity: 0.25; cursor: default !important; }
+
+/* Admin toggle cursor */
+.cal-available:not(.cal-past) { cursor: pointer; }
+
+/* Legend */
+.cal-public-legend {
+  display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 16px;
+}
+.cal-public-legend-item {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 0.78rem; color: var(--color-text-muted);
+}
+.cal-public-legend-dot {
+  width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0;
+}
+
+/* Wide tool card for calendar */
+.tool-card-wide { grid-column: 1 / -1; }

@@ -1,36 +1,29 @@
 /* ============================================================
    HOT SHOT ENTERTAINMENT — calendar.js
-   Shared calendar logic for admin manager + public view
+   Shared calendar logic — paginated carousel view
    ============================================================ */
 
 const CAL = (() => {
 
   const MONTHS = ['January','February','March','April','May','June',
                   'July','August','September','October','November','December'];
-  const DAYS   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const DAYS   = ['Su','Mo','Tu','We','Th','Fr','Sa'];
 
-  // Status values
-  const STATUS = { AVAILABLE: 'available', BOOKED: 'booked', HOLD: 'hold' };
-
-  // Load dates from SITE_CONFIG if available, otherwise empty
-  function loadDates() {
-    const dates = {};
-    if (typeof SITE_CONFIG !== 'undefined') {
-      (SITE_CONFIG.bookedDates || []).forEach(d => dates[d] = STATUS.BOOKED);
-      (SITE_CONFIG.holdDates   || []).forEach(d => dates[d] = STATUS.HOLD);
-    }
-    return dates;
-  }
-
-  // Format date as YYYY-MM-DD
   function fmt(y, m, d) {
     return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
   }
 
-  // Build a single month grid
+  function loadDates() {
+    const dates = {};
+    if (typeof SITE_CONFIG !== 'undefined') {
+      (SITE_CONFIG.bookedDates || []).forEach(d => dates[d] = 'booked');
+      (SITE_CONFIG.holdDates   || []).forEach(d => dates[d] = 'hold');
+    }
+    return dates;
+  }
+
   function buildMonth(year, month, dates, interactive, onDateClick) {
-    const today = new Date();
-    today.setHours(0,0,0,0);
+    const today = new Date(); today.setHours(0,0,0,0);
 
     const wrap = document.createElement('div');
     wrap.className = 'cal-month';
@@ -43,7 +36,6 @@ const CAL = (() => {
     const grid = document.createElement('div');
     grid.className = 'cal-grid';
 
-    // Day headers
     DAYS.forEach(d => {
       const cell = document.createElement('div');
       cell.className = 'cal-day-header';
@@ -51,7 +43,6 @@ const CAL = (() => {
       grid.appendChild(cell);
     });
 
-    // Empty cells before first day
     const firstDay = new Date(year, month, 1).getDay();
     for (let i = 0; i < firstDay; i++) {
       const empty = document.createElement('div');
@@ -59,11 +50,10 @@ const CAL = (() => {
       grid.appendChild(empty);
     }
 
-    // Day cells
     const daysInMonth = new Date(year, month+1, 0).getDate();
     for (let d = 1; d <= daysInMonth; d++) {
-      const dateStr = fmt(year, month, d);
-      const status  = dates[dateStr] || STATUS.AVAILABLE;
+      const dateStr  = fmt(year, month, d);
+      const status   = dates[dateStr] || 'available';
       const cellDate = new Date(year, month, d);
       const isPast   = cellDate < today;
 
@@ -71,14 +61,12 @@ const CAL = (() => {
       cell.className = `cal-cell cal-${status}${isPast ? ' cal-past' : ''}`;
       cell.textContent = d;
       cell.dataset.date = dateStr;
-      cell.dataset.status = status;
 
       if (interactive && !isPast) {
         cell.addEventListener('click', () => onDateClick(dateStr, cell));
-      } else if (!interactive && status === STATUS.AVAILABLE && !isPast) {
+      } else if (!interactive && status === 'available' && !isPast) {
         cell.classList.add('cal-clickable');
         cell.addEventListener('click', () => {
-          // Scroll to contact form and pre-fill date
           const contactDate = document.getElementById('fevent-date');
           if (contactDate) contactDate.value = dateStr;
           const contact = document.getElementById('contact');
@@ -96,54 +84,116 @@ const CAL = (() => {
     return wrap;
   }
 
-  // Build full multi-year calendar with year tabs
+  // Build paginated carousel calendar
   function buildCalendar(containerId, dates, interactive, onDateClick) {
     const container = document.getElementById(containerId);
     if (!container) return;
     container.innerHTML = '';
 
     const today = new Date();
-    const startYear = today.getFullYear();
-    const endYear   = startYear + 2;
+    const startYear  = today.getFullYear();
+    const startMonth = today.getMonth();
 
-    // Build tab bar
-    const tabBar = document.createElement('div');
-    tabBar.className = 'cal-year-tabs';
-
-    for (let year = startYear; year <= endYear; year++) {
-      const tab = document.createElement('button');
-      tab.className = 'cal-year-tab' + (year === startYear ? ' active' : '');
-      tab.textContent = year;
-      tab.dataset.year = year;
-      tab.addEventListener('click', () => {
-        container.querySelectorAll('.cal-year-tab').forEach(t => t.classList.remove('active'));
-        container.querySelectorAll('.cal-year-panel').forEach(p => p.classList.remove('active'));
-        tab.classList.add('active');
-        container.querySelector(`.cal-year-panel[data-year="${year}"]`).classList.add('active');
-      });
-      tabBar.appendChild(tab);
+    // Build full list of months (current month → +36 months)
+    const allMonths = [];
+    for (let i = 0; i < 37; i++) {
+      const d = new Date(startYear, startMonth + i, 1);
+      allMonths.push({ year: d.getFullYear(), month: d.getMonth() });
     }
-    container.appendChild(tabBar);
 
-    // Build year panels
-    for (let year = startYear; year <= endYear; year++) {
-      const panel = document.createElement('div');
-      panel.className = 'cal-year-panel' + (year === startYear ? ' active' : '');
-      panel.dataset.year = year;
+    // Determine visible count based on screen width
+    function getVisible() {
+      return window.innerWidth >= 1024 ? 5
+           : window.innerWidth >= 640  ? 3
+           : 1;
+    }
 
-      const monthsGrid = document.createElement('div');
-      monthsGrid.className = 'cal-months-grid';
+    let currentIndex = 0;
 
-      const startMonth = (year === startYear) ? today.getMonth() : 0;
-      for (let month = startMonth; month < 12; month++) {
-        monthsGrid.appendChild(buildMonth(year, month, dates, interactive, onDateClick));
+    // Carousel wrapper
+    const carousel = document.createElement('div');
+    carousel.className = 'cal-carousel';
+
+    // Nav row
+    const nav = document.createElement('div');
+    nav.className = 'cal-nav';
+
+    const prevBtn = document.createElement('button');
+    prevBtn.className = 'cal-nav-btn cal-nav-prev';
+    prevBtn.innerHTML = '&#8592;';
+    prevBtn.setAttribute('aria-label', 'Previous months');
+
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'cal-nav-btn cal-nav-next';
+    nextBtn.innerHTML = '&#8594;';
+    nextBtn.setAttribute('aria-label', 'Next months');
+
+    const navLabel = document.createElement('div');
+    navLabel.className = 'cal-nav-label';
+
+    nav.appendChild(prevBtn);
+    nav.appendChild(navLabel);
+    nav.appendChild(nextBtn);
+    carousel.appendChild(nav);
+
+    // Month track
+    const track = document.createElement('div');
+    track.className = 'cal-track';
+    carousel.appendChild(track);
+
+    container.appendChild(carousel);
+
+    function render() {
+      const visible = getVisible();
+      track.innerHTML = '';
+
+      // Clamp index
+      currentIndex = Math.max(0, Math.min(currentIndex, allMonths.length - visible));
+
+      // Update nav label
+      const first = allMonths[currentIndex];
+      const last  = allMonths[Math.min(currentIndex + visible - 1, allMonths.length - 1)];
+      if (first.year === last.year) {
+        navLabel.textContent = `${MONTHS[first.month]} – ${MONTHS[last.month]} ${first.year}`;
+      } else {
+        navLabel.textContent = `${MONTHS[first.month]} ${first.year} – ${MONTHS[last.month]} ${last.year}`;
       }
 
-      panel.appendChild(monthsGrid);
-      container.appendChild(panel);
+      // Show months
+      for (let i = currentIndex; i < currentIndex + visible && i < allMonths.length; i++) {
+        const { year, month } = allMonths[i];
+        const monthEl = buildMonth(year, month, dates, interactive, onDateClick);
+        monthEl.style.flex = `0 0 calc(${100/visible}% - ${(visible-1)*12/visible}px)`;
+        track.appendChild(monthEl);
+      }
+
+      // Button states
+      prevBtn.disabled = currentIndex === 0;
+      nextBtn.disabled = currentIndex >= allMonths.length - visible;
+      prevBtn.style.opacity = prevBtn.disabled ? '0.3' : '1';
+      nextBtn.style.opacity = nextBtn.disabled ? '0.3' : '1';
     }
+
+    prevBtn.addEventListener('click', () => {
+      currentIndex = Math.max(0, currentIndex - getVisible());
+      render();
+    });
+
+    nextBtn.addEventListener('click', () => {
+      currentIndex = Math.min(allMonths.length - getVisible(), currentIndex + getVisible());
+      render();
+    });
+
+    // Re-render on resize
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(render, 150);
+    });
+
+    render();
   }
 
-  return { buildCalendar, loadDates, STATUS, fmt };
+  return { buildCalendar, loadDates, fmt };
 
 })();
