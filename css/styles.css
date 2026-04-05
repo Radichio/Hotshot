@@ -126,20 +126,23 @@ p  { font-size: 1.0625rem; color: var(--color-text); }
    ============================================================ */
 #navbar {
   position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-  padding: 20px 0;
+  padding: 8px 0;
   transition: background var(--transition), padding var(--transition), box-shadow var(--transition);
 }
 #navbar.scrolled {
   background: rgba(20,20,31,0.97);
   backdrop-filter: blur(10px);
-  padding: 12px 0;
+  padding: 4px 0;
   box-shadow: 0 2px 30px rgba(0,0,0,0.5);
+}
+#navbar.scrolled .nav-logo img {
+  height: 80px;
 }
 .nav-inner {
   display: flex; align-items: center; justify-content: space-between;
 }
 .nav-logo img {
-  height: 80px; width: auto;
+  height: 110px; width: auto;
   mix-blend-mode: screen;
 }
 .nav-links {
