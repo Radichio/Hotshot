@@ -136,13 +136,13 @@ p  { font-size: 1.0625rem; color: var(--color-text); }
   box-shadow: 0 2px 30px rgba(0,0,0,0.5);
 }
 #navbar.scrolled .nav-logo img {
-  height: 80px;
+  height: 160px;
 }
 .nav-inner {
   display: flex; align-items: center; justify-content: space-between;
 }
 .nav-logo img {
-  height: 110px; width: auto;
+  height: 300px; width: auto;
   mix-blend-mode: screen;
 }
 .nav-links {
