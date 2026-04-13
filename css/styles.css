@@ -268,8 +268,20 @@ p  { font-size: 1.0625rem; color: var(--color-text); }
 .hero-content {
   position: relative; z-index: 2;
   text-align: left; padding: 120px 24px 80px;
-  max-width: 680px;
-  margin-left: 5%;
+  max-width: 520px;
+  margin-left: 0;
+  align-self: flex-start;
+}
+
+#home {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 60px;
+}
+
+@media (max-width: 768px) {
+  #home { padding-left: 20px; }
 }
 .hero-eyebrow {
   font-family: 'Montserrat', sans-serif;
