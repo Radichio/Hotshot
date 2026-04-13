@@ -120,6 +120,36 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 600);
   });
 
+  // ── TIMELINE SEND ──
+  const timelineSendBtn = document.getElementById('timeline-send-btn');
+  timelineSendBtn?.addEventListener('click', () => {
+    const rows = document.querySelectorAll('.tl-input');
+    const timeline = {};
+    rows.forEach(r => { if (r.value) timeline[r.name] = r.value; });
+
+    if (Object.keys(timeline).length === 0) {
+      alert('Please fill in at least one time before sending.');
+      return;
+    }
+
+    const hiddenField = document.querySelector('input[name="playlist-data"]');
+    const existing = hiddenField?.value ? JSON.parse(hiddenField.value) : {};
+    existing.timeline_times = timeline;
+    if (hiddenField) hiddenField.value = JSON.stringify(existing, null, 2);
+
+    const contact = document.getElementById('contact');
+    if (contact) {
+      const top = contact.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+    setTimeout(() => {
+      const msgArea = document.querySelector('textarea[name="message"]');
+      if (msgArea && !msgArea.value) {
+        msgArea.value = "I've mapped out my event timeline — details attached!";
+      }
+    }, 600);
+  });
+
   // ── CONTACT FORM SUBMISSION ──
   const form = document.getElementById('contact-form');
   form?.addEventListener('submit', e => {

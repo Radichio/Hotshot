@@ -1143,3 +1143,23 @@ footer {
 
 /* Wide tool card for calendar */
 .tool-card-wide { grid-column: 1 / -1; }
+
+/* ── EVENT TIMELINE BUILDER ── */
+.timeline-builder { display: flex; flex-direction: column; gap: 10px; }
+.timeline-builder-row {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px;
+}
+.timeline-builder-row label {
+  font-size: 0.85rem; color: var(--color-text-muted);
+  min-width: 140px; flex-shrink: 0;
+}
+.tl-input {
+  flex: 1;
+  background: var(--color-bg);
+  border: 1px solid var(--color-bg-subtle);
+  border-radius: 4px; padding: 8px 12px;
+  color: var(--color-text); font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+}
+.tl-input:focus { outline: none; border-color: var(--color-gold); }
