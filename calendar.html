@@ -10,22 +10,20 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --color-bg:            #0a0a0f;
-      --color-bg-elevated:   #14141f;
-      --color-bg-subtle:     #1a1a2e;
-      --color-gold:          #c8a84e;
-      --color-gold-light:    #e0c875;
-      --color-gold-dim:      #8a7235;
-      --color-text:          #e8e6e3;
-      --color-text-muted:    #9b9b9b;
-      --color-text-bright:   #ffffff;
-      --color-booked:        #c0392b;
-      --color-booked-bg:     rgba(192,57,43,0.2);
-      --color-hold:          #e67e22;
-      --color-hold-bg:       rgba(230,126,34,0.2);
-      --color-unavail:       #4a4a5a;
-      --color-unavail-bg:    rgba(74,74,90,0.3);
-      --color-available:     #27ae60;
+      --color-bg:          #0a0a0f;
+      --color-bg-elevated: #14141f;
+      --color-bg-subtle:   #1a1a2e;
+      --color-gold:        #c8a84e;
+      --color-gold-light:  #e0c875;
+      --color-gold-dim:    #8a7235;
+      --color-text:        #e8e6e3;
+      --color-text-muted:  #9b9b9b;
+      --color-text-bright: #ffffff;
+      --color-booked:      #c0392b;
+      --color-booked-bg:   rgba(192,57,43,0.2);
+      --color-hold:        #e67e22;
+      --color-hold-bg:     rgba(230,126,34,0.2);
+      --color-available:   #27ae60;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -111,16 +109,19 @@
       padding: 16px 32px;
       display: flex; align-items: center; justify-content: space-between;
       position: sticky; top: 0; z-index: 100;
-      flex-wrap: wrap; gap: 12px;
     }
-    .app-header-left { display: flex; align-items: center; gap: 16px; }
+    .app-header-left {
+      display: flex; align-items: center; gap: 16px;
+    }
     .app-header h1 {
       font-family: 'Montserrat', sans-serif;
       font-size: 1rem; font-weight: 700;
       color: var(--color-text-bright);
     }
-    .app-header p { font-size: 0.8rem; color: var(--color-text-muted); }
-    .header-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .app-header p {
+      font-size: 0.8rem; color: var(--color-text-muted);
+    }
+    .header-actions { display: flex; gap: 12px; align-items: center; }
 
     .btn {
       display: inline-flex; align-items: center; gap: 8px;
@@ -131,40 +132,38 @@
       cursor: pointer; border: none;
       transition: all 0.3s;
     }
-    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
     .btn-primary { background: var(--color-gold); color: #0a0a0f; }
-    .btn-primary:hover:not(:disabled) { background: var(--color-gold-light); }
+    .btn-primary:hover { background: var(--color-gold-light); }
     .btn-ghost {
       background: transparent; color: var(--color-text-muted);
       border: 1px solid var(--color-bg-subtle);
     }
     .btn-ghost:hover { color: var(--color-text-bright); border-color: var(--color-text-muted); }
-    .btn-ics {
-      background: transparent; color: var(--color-gold-dim);
-      border: 1px solid var(--color-gold-dim);
-    }
-    .btn-ics:hover { color: var(--color-gold); border-color: var(--color-gold); }
+    .btn-danger { background: transparent; color: #e74c3c; border: 1px solid #e74c3c; }
+    .btn-danger:hover { background: #e74c3c; color: white; }
 
     /* Legend */
     .legend {
-      display: flex; gap: 20px; align-items: center;
-      padding: 12px 32px;
+      display: flex; gap: 24px; align-items: center;
+      padding: 16px 32px;
       background: var(--color-bg-elevated);
       border-bottom: 1px solid var(--color-bg-subtle);
       flex-wrap: wrap;
     }
     .legend-item {
-      display: flex; align-items: center; gap: 7px;
-      font-size: 0.82rem; color: var(--color-text-muted);
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.85rem; color: var(--color-text-muted);
     }
-    .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
-    .legend-dot.booked      { background: var(--color-booked); }
-    .legend-dot.hold        { background: var(--color-hold); }
-    .legend-dot.unavailable { background: var(--color-unavail); }
-    .legend-dot.available   { background: var(--color-bg-subtle); border: 1px solid var(--color-text-muted); }
+    .legend-dot {
+      width: 14px; height: 14px; border-radius: 3px;
+    }
+    .legend-dot.booked  { background: var(--color-booked); }
+    .legend-dot.hold    { background: var(--color-hold); }
+    .legend-dot.available { background: var(--color-bg-subtle); border: 1px solid var(--color-text-muted); }
+
     .legend-instructions {
       margin-left: auto;
-      font-size: 0.78rem; color: var(--color-text-muted);
+      font-size: 0.8rem; color: var(--color-text-muted);
       font-style: italic;
     }
 
@@ -180,19 +179,81 @@
 
     /* Stats strip */
     .stats-strip {
-      display: flex; gap: 32px; padding: 14px 32px;
+      display: flex; gap: 32px; padding: 16px 32px;
       border-bottom: 1px solid var(--color-bg-subtle);
-      flex-wrap: wrap; align-items: center;
+      flex-wrap: wrap;
     }
-    .stat { display: flex; flex-direction: column; gap: 2px; }
+    .stat {
+      display: flex; flex-direction: column; gap: 2px;
+    }
     .stat-num {
       font-family: 'Montserrat', sans-serif;
-      font-size: 1.4rem; font-weight: 700;
+      font-size: 1.5rem; font-weight: 700;
       color: var(--color-gold);
     }
-    .stat-label { font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+    .stat-label { font-size: 0.75rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
 
-    /* Unsaved indicator */
+    /* Calendar */
+    .cal-container { padding: 32px; }
+
+    .cal-year { margin-bottom: 48px; }
+    .cal-year-heading {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem; font-weight: 700;
+      color: var(--color-gold);
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--color-gold-dim);
+    }
+    .cal-months-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .cal-month {
+      background: var(--color-bg-elevated);
+      border: 1px solid var(--color-bg-subtle);
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .cal-month-heading {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.875rem; font-weight: 600;
+      color: var(--color-text-bright);
+      text-align: center; margin-bottom: 12px;
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .cal-grid {
+      display: grid; grid-template-columns: repeat(7, 1fr);
+      gap: 3px;
+    }
+    .cal-day-header {
+      text-align: center; font-size: 0.65rem;
+      color: var(--color-text-muted);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600; letter-spacing: 0.05em;
+      padding: 4px 0;
+    }
+    .cal-cell {
+      aspect-ratio: 1; display: flex;
+      align-items: center; justify-content: center;
+      font-size: 0.75rem; border-radius: 4px;
+      cursor: default; font-family: 'Inter', sans-serif;
+      transition: all 0.15s;
+      user-select: none;
+    }
+    .cal-empty { background: transparent; }
+    .cal-available { background: transparent; color: var(--color-text-muted); }
+    .cal-available:not(.cal-past) { cursor: pointer; }
+    .cal-available:not(.cal-past):hover { background: var(--color-bg-subtle); color: var(--color-text-bright); }
+    .cal-booked { background: var(--color-booked-bg); color: #e74c3c; font-weight: 600; border: 1px solid var(--color-booked); }
+    .cal-booked:not(.cal-past) { cursor: pointer; }
+    .cal-hold { background: var(--color-hold-bg); color: #e67e22; font-weight: 600; border: 1px solid var(--color-hold); }
+    .cal-hold:not(.cal-past) { cursor: pointer; }
+    .cal-past { opacity: 0.3; cursor: default !important; }
+    .cal-clickable:hover { background: rgba(200,168,78,0.15) !important; color: var(--color-gold) !important; transform: scale(1.1); }
+
+    /* Unsaved changes indicator */
     #unsaved-indicator {
       display: none;
       background: rgba(200,168,78,0.1);
@@ -204,142 +265,19 @@
     }
     #unsaved-indicator.show { display: block; }
 
-    /* Calendar container */
-    .cal-container { padding: 24px 32px; max-width: 1100px; margin: 0 auto; }
-
-    /* Month grid */
-    .cal-month {
-      background: var(--color-bg-elevated);
-      border: 1px solid var(--color-bg-subtle);
-      border-radius: 8px;
-      padding: 12px;
+    /* Save instructions */
+    .save-instructions {
+      padding: 16px 32px;
+      background: rgba(200,168,78,0.05);
+      border-bottom: 1px solid var(--color-bg-subtle);
+      font-size: 0.85rem; color: var(--color-text-muted);
     }
-    .cal-month-heading {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 0.8rem; font-weight: 600;
-      color: var(--color-text-bright);
-      text-align: center; margin-bottom: 8px;
-      text-transform: uppercase; letter-spacing: 0.08em;
-    }
-    .cal-grid {
-      display: grid; grid-template-columns: repeat(7, 1fr);
-      gap: 2px;
-    }
-    .cal-day-header {
-      text-align: center; font-size: 0.62rem;
-      color: var(--color-text-muted);
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 600; letter-spacing: 0.05em;
-      padding: 3px 0 5px;
-    }
-    .cal-cell {
-      height: 30px; display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      font-size: 0.72rem; border-radius: 4px;
-      cursor: default; font-family: 'Inter', sans-serif;
-      transition: all 0.15s;
-      user-select: none;
-      position: relative; overflow: hidden;
-      gap: 1px;
-    }
-    .cal-date-num { line-height: 1; }
-    .cal-client-label {
-      font-size: 0.48rem;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      color: rgba(255,255,255,0.8);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 95%;
-      text-align: center;
-      text-transform: uppercase;
-    }
-
-    .cal-empty       { background: transparent; }
-    .cal-available   { background: transparent; color: var(--color-text-muted); cursor: pointer; }
-    .cal-available:not(.cal-past):hover { background: var(--color-bg-subtle); color: var(--color-text-bright); }
-    .cal-booked      { background: var(--color-booked-bg); color: #e74c3c; font-weight: 600; border: 1px solid var(--color-booked); cursor: pointer; }
-    .cal-hold        { background: var(--color-hold-bg); color: #e67e22; font-weight: 600; border: 1px solid var(--color-hold); cursor: pointer; }
-    .cal-unavailable { background: var(--color-unavail-bg); color: #7a7a8a; font-weight: 500; border: 1px solid var(--color-unavail); cursor: pointer; }
-    .cal-past        { opacity: 0.3; cursor: default !important; }
-
-    /* Carousel nav */
-    .cal-carousel { width: 100%; }
-    .cal-nav {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 16px;
-    }
-    .cal-nav-label {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 0.9rem; font-weight: 600;
-      color: var(--color-text);
-      letter-spacing: 0.04em;
-    }
-    .cal-nav-btn {
-      background: var(--color-bg-elevated);
-      border: 1px solid var(--color-bg-subtle);
-      color: var(--color-text-muted);
-      width: 36px; height: 36px;
-      border-radius: 4px; cursor: pointer;
-      font-size: 1.1rem;
-      display: flex; align-items: center; justify-content: center;
-      transition: all 0.2s;
-    }
-    .cal-nav-btn:not(:disabled):hover { border-color: var(--color-gold); color: var(--color-gold); }
-    .cal-track {
-      display: flex; gap: 12px;
-    }
-
-    /* ── CLIENT NAME MODAL ── */
-    #name-modal {
-      display: none;
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.7);
-      z-index: 500;
-      align-items: center; justify-content: center;
-    }
-    #name-modal.show { display: flex; }
-    .name-modal-box {
-      background: var(--color-bg-elevated);
-      border: 1px solid var(--color-gold-dim);
-      border-radius: 10px;
-      padding: 32px 28px;
-      width: 100%; max-width: 380px;
-      text-align: center;
-    }
-    .name-modal-box h3 {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1rem; font-weight: 700;
-      color: var(--color-text-bright);
-      margin-bottom: 6px;
-    }
-    .name-modal-date {
-      font-size: 0.82rem; color: var(--color-gold);
-      margin-bottom: 20px;
-      font-family: 'Montserrat', sans-serif;
-    }
-    .name-modal-box input {
-      width: 100%;
-      background: var(--color-bg);
-      border: 1px solid var(--color-bg-subtle);
-      border-radius: 6px;
-      padding: 12px 14px;
-      color: var(--color-text);
-      font-family: 'Inter', sans-serif;
-      font-size: 0.95rem;
-      margin-bottom: 16px;
-      transition: border-color 0.3s;
-    }
-    .name-modal-box input:focus { outline: none; border-color: var(--color-gold); }
-    .name-modal-actions { display: flex; gap: 10px; }
-    .name-modal-actions .btn { flex: 1; justify-content: center; }
+    .save-instructions strong { color: var(--color-gold); }
 
     @media (max-width: 768px) {
-      .app-header { padding: 12px 16px; }
+      .app-header { padding: 12px 16px; flex-wrap: wrap; gap: 12px; }
       .cal-container { padding: 16px; }
-      .legend { padding: 10px 16px; gap: 12px; }
+      .legend { padding: 12px 16px; }
       .stats-strip { padding: 12px 16px; gap: 20px; }
       .legend-instructions { display: none; }
     }
@@ -366,14 +304,13 @@
     <div class="app-header-left">
       <div>
         <h1>Hot Shot Entertainment — Availability Calendar</h1>
-        <p>Click dates to toggle status. Save &amp; Publish when done.</p>
+        <p>Click dates to toggle status. Save when done.</p>
       </div>
     </div>
     <div class="header-actions">
       <div id="unsaved-indicator">● Unsaved changes</div>
-      <button class="btn btn-ics" onclick="exportCalendarICS()">Export .ics</button>
       <button class="btn btn-ghost" onclick="clearAllDates()">Clear All</button>
-      <button class="btn btn-primary" id="publish-btn" onclick="saveDates()">Save &amp; Publish</button>
+      <button class="btn btn-primary" onclick="saveDates()">Save &amp; Publish</button>
     </div>
   </div>
 
@@ -388,13 +325,9 @@
     </div>
     <div class="legend-item">
       <div class="legend-dot hold"></div>
-      <span>Hold — click three times</span>
+      <span>Hold — click three times to clear</span>
     </div>
-    <div class="legend-item">
-      <div class="legend-dot unavailable"></div>
-      <span>Unavailable — click four times to clear</span>
-    </div>
-    <p class="legend-instructions">Available → Booked → Hold → Unavailable → Available</p>
+    <p class="legend-instructions">Click any future date to cycle: Available → Booked → Hold → Available</p>
   </div>
 
   <div class="stats-strip">
@@ -407,10 +340,6 @@
       <span class="stat-label">On Hold</span>
     </div>
     <div class="stat">
-      <span class="stat-num" id="stat-unavail">0</span>
-      <span class="stat-label">Unavailable</span>
-    </div>
-    <div class="stat">
       <span class="stat-num" id="stat-available">—</span>
       <span class="stat-label">Next Available</span>
     </div>
@@ -418,34 +347,22 @@
 
   <div id="status-bar"></div>
 
+  <div class="save-instructions">
+    <strong>How to publish:</strong> Click "Save &amp; Publish" — your availability updates on the website within 60 seconds. No other steps needed.
+  </div>
+
   <div class="cal-container">
     <div id="admin-calendar"></div>
   </div>
 
 </div>
 
-<!-- CLIENT NAME MODAL -->
-<div id="name-modal">
-  <div class="name-modal-box">
-    <h3>Add Client Name</h3>
-    <div class="name-modal-date" id="name-modal-date"></div>
-    <input type="text" id="name-input" placeholder="e.g. Smith Wedding" maxlength="40"
-           onkeydown="if(event.key==='Enter') saveClientName()">
-    <div class="name-modal-actions">
-      <button class="btn btn-ghost" onclick="skipClientName()">Skip</button>
-      <button class="btn btn-primary" onclick="saveClientName()">Save Name</button>
-    </div>
-  </div>
-</div>
-
 <script>
-  // ── STATE ──
+  // ── PASSWORD ──
   const PASSWORD = 'supercal';
-  let dates  = {};
-  let labels = {};
+  let dates = {};
   let hasUnsavedChanges = false;
 
-  // ── LOGIN ──
   function attemptLogin() {
     const val = document.getElementById('password-input').value;
     if (val === PASSWORD) {
@@ -458,115 +375,126 @@
       document.getElementById('password-input').focus();
     }
   }
+
   document.getElementById('password-input').addEventListener('keydown', e => {
     if (e.key === 'Enter') attemptLogin();
   });
 
   // ── INIT ──
   function initApp() {
-    dates  = {};
-    labels = {};
+    // Load from SITE_CONFIG if available
+    dates = {};
     if (typeof SITE_CONFIG !== 'undefined') {
-      (SITE_CONFIG.bookedDates      || []).forEach(d => dates[d]  = 'booked');
-      (SITE_CONFIG.holdDates        || []).forEach(d => dates[d]  = 'hold');
-      (SITE_CONFIG.unavailableDates || []).forEach(d => dates[d]  = 'unavailable');
-      Object.assign(labels, SITE_CONFIG.bookedLabels || {});
+      (SITE_CONFIG.bookedDates || []).forEach(d => dates[d] = 'booked');
+      (SITE_CONFIG.holdDates   || []).forEach(d => dates[d] = 'hold');
     }
     renderCalendar();
     updateStats();
   }
 
-  // ── RENDER ──
+  // ── RENDER — uses CAL carousel from calendar.js ──
   function renderCalendar() {
     if (typeof CAL !== 'undefined') {
-      CAL.buildCalendar('admin-calendar', dates, labels, true, toggleDate);
+      CAL.buildCalendar('admin-calendar', dates, true, toggleDate);
     }
   }
 
-  // ── TOGGLE DATE — 4-state cycle ──
-  function toggleDate(dateStr) {
-    const cycle   = ['available', 'booked', 'hold', 'unavailable'];
+  const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const DAYS   = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+
+  function fmt(y, m, d) {
+    return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+  }
+
+  function buildMonth(year, month, today) {
+    const wrap = document.createElement('div');
+    wrap.className = 'cal-month';
+
+    const heading = document.createElement('div');
+    heading.className = 'cal-month-heading';
+    heading.textContent = `${MONTHS[month]} ${year}`;
+    wrap.appendChild(heading);
+
+    const grid = document.createElement('div');
+    grid.className = 'cal-grid';
+
+    DAYS.forEach(d => {
+      const cell = document.createElement('div');
+      cell.className = 'cal-day-header';
+      cell.textContent = d;
+      grid.appendChild(cell);
+    });
+
+    const firstDay = new Date(year, month, 1).getDay();
+    for (let i = 0; i < firstDay; i++) {
+      const empty = document.createElement('div');
+      empty.className = 'cal-cell cal-empty';
+      grid.appendChild(empty);
+    }
+
+    const daysInMonth = new Date(year, month+1, 0).getDate();
+    for (let d = 1; d <= daysInMonth; d++) {
+      const dateStr  = fmt(year, month, d);
+      const status   = dates[dateStr] || 'available';
+      const cellDate = new Date(year, month, d);
+      const isPast   = cellDate < today;
+
+      const cell = document.createElement('div');
+      cell.className = `cal-cell cal-${status}${isPast ? ' cal-past' : ''}`;
+      cell.textContent = d;
+      cell.dataset.date = dateStr;
+      cell.title = dateStr;
+
+      if (!isPast) {
+        cell.addEventListener('click', () => toggleDate(dateStr, cell));
+      }
+
+      grid.appendChild(cell);
+    }
+
+    wrap.appendChild(grid);
+    return wrap;
+  }
+
+  // ── TOGGLE DATE ──
+  function toggleDate(dateStr, cell) {
     const current = dates[dateStr] || 'available';
-    const nextIdx = (cycle.indexOf(current) + 1) % cycle.length;
-    const next    = cycle[nextIdx];
+    const next = current === 'available' ? 'booked'
+               : current === 'booked'    ? 'hold'
+               : 'available';
 
     if (next === 'available') {
       delete dates[dateStr];
-      delete labels[dateStr];
     } else {
       dates[dateStr] = next;
     }
 
+    cell.className = `cal-cell cal-${next}`;
     markUnsaved();
-    renderCalendar();
     updateStats();
-
-    // Prompt for client name when date is set to Booked
-    if (next === 'booked') {
-      showNamePrompt(dateStr);
-    }
   }
-
-  // ── CLIENT NAME MODAL ──
-  function showNamePrompt(dateStr) {
-    const modal = document.getElementById('name-modal');
-    const input = document.getElementById('name-input');
-    const lbl   = document.getElementById('name-modal-date');
-    const [y, m, d] = dateStr.split('-').map(Number);
-    lbl.textContent = new Date(y, m-1, d).toLocaleDateString('en-CA', {
-      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-    });
-    input.value = labels[dateStr] || '';
-    modal.dataset.dateStr = dateStr;
-    modal.classList.add('show');
-    setTimeout(() => input.focus(), 50);
-  }
-
-  function saveClientName() {
-    const modal   = document.getElementById('name-modal');
-    const input   = document.getElementById('name-input');
-    const dateStr = modal.dataset.dateStr;
-    const name    = input.value.trim();
-    if (name) {
-      labels[dateStr] = name;
-    } else {
-      delete labels[dateStr];
-    }
-    modal.classList.remove('show');
-    renderCalendar();
-  }
-
-  function skipClientName() {
-    document.getElementById('name-modal').classList.remove('show');
-  }
-
-  // Close modal on backdrop click
-  document.getElementById('name-modal').addEventListener('click', function(e) {
-    if (e.target === this) skipClientName();
-  });
 
   // ── STATS ──
   function updateStats() {
-    const booked  = Object.values(dates).filter(v => v === 'booked').length;
-    const hold    = Object.values(dates).filter(v => v === 'hold').length;
-    const unavail = Object.values(dates).filter(v => v === 'unavailable').length;
-    document.getElementById('stat-booked').textContent  = booked;
-    document.getElementById('stat-hold').textContent    = hold;
-    document.getElementById('stat-unavail').textContent = unavail;
+    const bookedCount = Object.values(dates).filter(v => v === 'booked').length;
+    const holdCount   = Object.values(dates).filter(v => v === 'hold').length;
+    document.getElementById('stat-booked').textContent = bookedCount;
+    document.getElementById('stat-hold').textContent   = holdCount;
 
+    // Next available date
     const today = new Date(); today.setHours(0,0,0,0);
-    let nextAvail = null;
+    let next = null;
     for (let i = 0; i < 400; i++) {
-      const d   = new Date(today); d.setDate(today.getDate() + i);
-      const str = CAL.fmt(d.getFullYear(), d.getMonth(), d.getDate());
-      if (!dates[str]) { nextAvail = str; break; }
+      const d = new Date(today); d.setDate(today.getDate() + i);
+      const str = fmt(d.getFullYear(), d.getMonth(), d.getDate());
+      if (!dates[str]) { next = str; break; }
     }
-    document.getElementById('stat-available').textContent = nextAvail
-      ? new Date(nextAvail + 'T00:00:00').toLocaleDateString('en-CA', { month: 'short', day: 'numeric', year: 'numeric' })
+    document.getElementById('stat-available').textContent = next
+      ? new Date(next + 'T00:00:00').toLocaleDateString('en-CA', { month: 'short', day: 'numeric', year: 'numeric' })
       : '—';
   }
 
-  // ── MARK UNSAVED ──
+  // ── UNSAVED ──
   function markUnsaved() {
     hasUnsavedChanges = true;
     document.getElementById('unsaved-indicator').classList.add('show');
@@ -574,73 +502,40 @@
 
   // ── CLEAR ALL ──
   function clearAllDates() {
-    if (!confirm('Clear ALL booked, hold, and unavailable dates? This cannot be undone.')) return;
-    dates  = {};
-    labels = {};
+    if (!confirm('Clear all booked and hold dates? This cannot be undone.')) return;
+    dates = {};
     renderCalendar();
     updateStats();
     markUnsaved();
   }
 
-  // ── EXPORT ICS ──
-  function exportCalendarICS() {
-    if (typeof CAL !== 'undefined') {
-      CAL.exportICS(dates, labels);
-    }
-  }
+  // ── SAVE ──
+  function saveDates() {
+    const bookedDates = Object.entries(dates).filter(([,v]) => v === 'booked').map(([k]) => k).sort();
+    const holdDates   = Object.entries(dates).filter(([,v]) => v === 'hold').map(([k]) => k).sort();
 
-  // ── SAVE & PUBLISH — auto-pushes via Netlify function, falls back to download ──
-  async function saveDates() {
-    const bookedDates      = Object.keys(dates).filter(d => dates[d] === 'booked').sort();
-    const holdDates        = Object.keys(dates).filter(d => dates[d] === 'hold').sort();
-    const unavailableDates = Object.keys(dates).filter(d => dates[d] === 'unavailable').sort();
-    const configContent    = generateConfig(bookedDates, holdDates, unavailableDates, labels);
+    // Generate the new config.js content
+    const configContent = generateConfig(bookedDates, holdDates);
 
-    const btn = document.getElementById('publish-btn');
-    btn.textContent = 'Publishing…';
-    btn.disabled = true;
-
-    try {
-      const res = await fetch('/.netlify/functions/publish-calendar', {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ content: configContent })
-      });
-
-      if (res.ok) {
-        showStatus('success', '✓ Published! Changes are live on the website within 60 seconds.');
-        document.getElementById('unsaved-indicator').classList.remove('show');
-        hasUnsavedChanges = false;
-      } else {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.error || `Server error ${res.status}`);
-      }
-    } catch (err) {
-      // Fallback: download the file for manual push
-      downloadConfig(configContent);
-      showStatus('error', `⚠ Auto-publish failed (${err.message}) — config.js downloaded. Send this file to your developer to push manually.`);
-    } finally {
-      btn.textContent = 'Save & Publish';
-      btn.disabled = false;
-    }
-  }
-
-  function downloadConfig(content) {
-    const blob = new Blob([content], { type: 'application/javascript' });
+    // Download as config.js for the user to replace
+    const blob = new Blob([configContent], { type: 'application/javascript' });
     const url  = URL.createObjectURL(blob);
     const a    = document.createElement('a');
-    a.href = url; a.download = 'config.js'; a.click();
+    a.href = url;
+    a.download = 'config.js';
+    a.click();
     URL.revokeObjectURL(url);
+
+    showStatus('success', `✓ config.js downloaded — ${bookedDates.length} booked, ${holdDates.length} on hold. Replace js/config.js in your site folder and push to GitHub to publish.`);
+    document.getElementById('unsaved-indicator').classList.remove('show');
+    hasUnsavedChanges = false;
   }
 
-  // ── GENERATE CONFIG ──
-  function generateConfig(bookedDates, holdDates, unavailableDates, bookedLabels) {
-    const bookedStr      = bookedDates.map(d => `    "${d}"`).join(',\n') || '';
-    const holdStr        = holdDates.map(d => `    "${d}"`).join(',\n') || '';
-    const unavailStr     = unavailableDates.map(d => `    "${d}"`).join(',\n') || '';
-    const labelsEntries  = Object.entries(bookedLabels || {});
-    const labelsStr      = labelsEntries.map(([k,v]) => `    "${k}": "${v.replace(/"/g,'\\"')}"`).join(',\n') || '';
+  function generateConfig(bookedDates, holdDates) {
+    const bookedStr = bookedDates.map(d => `    "${d}"`).join(',\n') || '';
+    const holdStr   = holdDates.map(d => `    "${d}"`).join(',\n') || '';
 
+    // Read current config and replace just the date arrays
     return `const SITE_CONFIG = {
 
   // ── BUSINESS INFO ──
@@ -665,18 +560,8 @@
 ${bookedStr}
   ],
 
-  // ── BOOKED LABELS ── (client names — admin only, not shown on public site)
-  bookedLabels: {
-${labelsStr}
-  },
-
   holdDates: [
 ${holdStr}
-  ],
-
-  // ── UNAVAILABLE DATES ── (personal blocks — shows as grey/unavailable to public)
-  unavailableDates: [
-${unavailStr}
   ],
 
   // ── TESTIMONIALS ──
@@ -693,28 +578,30 @@ ${unavailStr}
   packages: [
     {
       name: "The Social",
-      price: "From $800",
+      price: "From $1,650",
       priceNote: "+ mileage & GST",
       description: "Perfect for dances, socials, fundraisers, and community events.",
       features: [
         "Professional sound system",
         "MC & host services",
-        "Up to 5 hours",
+        "All event tickets included (entry, support, raffle, grand prize, 50/50 & liquor)",
+        "Projector & screen for personalized slideshow",
+        "Raffle winning number display",
         "Custom playlist planning"
       ],
       popular: false
     },
     {
       name: "The Celebration",
-      price: "From $3,500",
+      price: "From $4,250",
       priceNote: "+ mileage & GST",
       description: "Full wedding reception coverage — your complete evening handled.",
       features: [
         "Planning consultation",
-        "Ceremony audio",
+        "Detailed ceremony coordination and audio",
         "Cocktail + dinner music",
         "Full dance set + MC",
-        "Up to 10 hours"
+        "Custom playlist planning"
       ],
       popular: true
     },
@@ -827,8 +714,12 @@ ${unavailStr}
     }
   }
 
+  // Warn on unsaved changes
   window.addEventListener('beforeunload', e => {
-    if (hasUnsavedChanges) { e.preventDefault(); e.returnValue = ''; }
+    if (hasUnsavedChanges) {
+      e.preventDefault();
+      e.returnValue = '';
+    }
   });
 </script>
 

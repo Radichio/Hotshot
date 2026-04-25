@@ -18,7 +18,6 @@ const SITE_CONFIG = {
   },
 
   // ── TESTIMONIALS ──
-  // To add more: copy one block, paste below, update quote/attribution/detail
   testimonials: [
     {
       shortQuote: "Your presence truly brought the entire celebration to life. It's rare to find someone who can bring so much heart and professionalism to a role like yours — and you did it effortlessly.",
@@ -28,43 +27,51 @@ const SITE_CONFIG = {
     },
   ],
 
-  // ── BOOKED DATES ──
-  // Format: "YYYY-MM-DD"
-  // Add dates here as you book them — they will show as unavailable in the date checker
+  // ── BOOKED DATES ── (managed via Calendar Manager)
   bookedDates: [
     // "2026-07-19",
   ],
+
+  // ── BOOKED LABELS ── (client names — admin only, not shown on public site)
+  bookedLabels: {
+  },
+
   holdDates: [
     // "2026-09-05",
   ],
 
+  // ── UNAVAILABLE DATES ── (personal blocks — shows as grey/unavailable to public)
+  unavailableDates: [
+  ],
+
   // ── PACKAGES ──
-  // NOTE TO CORY: Review and confirm package names, prices, and features before launch
   packages: [
     {
       name: "The Social",
-      price: "From $800",
+      price: "From $1,650",
       priceNote: "+ mileage & GST",
       description: "Perfect for dances, socials, fundraisers, and community events.",
       features: [
         "Professional sound system",
         "MC & host services",
-        "Up to 5 hours",
+        "All event tickets included (entry, support, raffle, grand prize, 50/50 & liquor)",
+        "Projector & screen for personalized slideshow",
+        "Raffle winning number display",
         "Custom playlist planning"
       ],
       popular: false
     },
     {
       name: "The Celebration",
-      price: "From $3,500",
+      price: "From $4,250",
       priceNote: "+ mileage & GST",
       description: "Full wedding reception coverage — your complete evening handled.",
       features: [
         "Planning consultation",
-        "Ceremony audio",
+        "Detailed ceremony coordination and audio",
         "Cocktail + dinner music",
         "Full dance set + MC",
-        "Up to 10 hours"
+        "Custom playlist planning"
       ],
       popular: true
     },
@@ -128,8 +135,6 @@ const SITE_CONFIG = {
   ],
 
   // ── GALLERY ──
-  // To add photos: { src: "images/your-photo.jpg", alt: "Description", category: "wedding" }
-  // Categories: wedding, dj, lighting, setup
   gallery: [
     { src: "images/wedding-party.jpg", alt: "Wedding reception — bride and wedding party laughing at head table", category: "wedding" },
     { src: "images/hero-dj-tall.jpg", alt: "Cory Gulenchin DJing at a wedding reception", category: "dj" },
@@ -140,7 +145,6 @@ const SITE_CONFIG = {
   ],
 
   // ── FAQ ──
-  // NOTE TO CORY: Review these — adjust any answers to match exactly how you'd say it
   faq: [
     {
       q: "How far do you travel?",
