@@ -12,13 +12,33 @@ const SITE_CONFIG = {
     tagline: "Making Every Event Hit the Mark",
     copyright: `© ${new Date().getFullYear()} Hot Shot Entertainment`,
     social: {
-      facebook: "https://facebook.com/hotshotentertainment",
+      facebook: "https://www.facebook.com/hotshotent",
       instagram: "",
     }
   },
 
+  // ── BOOKED DATES ── (managed via Calendar Manager)
+  bookedDates: [
+    "2026-04-25",
+    "2026-04-26"
+  ],
+
+  // ── BOOKED LABELS ── (client names — admin only, not shown on public site)
+  bookedLabels: {
+    "2026-04-25": "Wedding",
+    "2026-04-26": "Wedding"
+  },
+
+  holdDates: [
+
+  ],
+
+  // ── UNAVAILABLE DATES ── (personal blocks — shows as grey/unavailable to public)
+  unavailableDates: [
+
+  ],
+
   // ── TESTIMONIALS ──
-  // To add more: copy one block, paste below, update quote/attribution/detail
   testimonials: [
     {
       shortQuote: "Your presence truly brought the entire celebration to life. It's rare to find someone who can bring so much heart and professionalism to a role like yours — and you did it effortlessly.",
@@ -28,18 +48,7 @@ const SITE_CONFIG = {
     },
   ],
 
-  // ── BOOKED DATES ──
-  // Format: "YYYY-MM-DD"
-  // Add dates here as you book them — they will show as unavailable in the date checker
-  bookedDates: [
-    // "2026-07-19",
-  ],
-  holdDates: [
-    // "2026-09-05",
-  ],
-
   // ── PACKAGES ──
-  // NOTE TO CORY: Review and confirm package names, prices, and features before launch
   packages: [
     {
       name: "The Social",
@@ -128,8 +137,6 @@ const SITE_CONFIG = {
   ],
 
   // ── GALLERY ──
-  // To add photos: { src: "images/your-photo.jpg", alt: "Description", category: "wedding" }
-  // Categories: wedding, dj, lighting, setup
   gallery: [
     { src: "images/wedding-party.jpg", alt: "Wedding reception — bride and wedding party laughing at head table", category: "wedding" },
     { src: "images/hero-dj-tall.jpg", alt: "Cory Gulenchin DJing at a wedding reception", category: "dj" },
@@ -140,7 +147,6 @@ const SITE_CONFIG = {
   ],
 
   // ── FAQ ──
-  // NOTE TO CORY: Review these — adjust any answers to match exactly how you'd say it
   faq: [
     {
       q: "How far do you travel?",
