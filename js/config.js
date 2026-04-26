@@ -12,7 +12,7 @@ const SITE_CONFIG = {
     tagline: "Making Every Event Hit the Mark",
     copyright: `© ${new Date().getFullYear()} Hot Shot Entertainment`,
     social: {
-      facebook: "https://facebook.com/hotshotentertainment",
+      facebook: "https://facebook.com/hotshotent",
       instagram: "",
     }
   },
